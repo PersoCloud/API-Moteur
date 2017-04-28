@@ -1,0 +1,24 @@
+{
+  "name": "random_data_generator",
+  "version": "2.0.0",
+  "description": "",
+  "main": "random_data_generator.js",
+  "dependencies": {
+    "request": "^2.81.0",
+	"system-sleep": "^1.3.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node random_data_generator.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.irisa.fr/pcloud/api-moteur.git"
+  },
+  "bugs": {
+    "url": "https://gitlab.irisa.fr/pcloud/api-moteur/issues"
+  }
+}
