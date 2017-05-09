@@ -2,6 +2,8 @@ var logger = require("../helpers/logger");
 var Influx = require('influx');
 var sleep = require('system-sleep');
 
+var ctrl_signature = require("./signature")
+
 var hlp_date = require('../helpers/date');
 var hlp_string = require('../helpers/string');
 var hlp_influxdb = require('../helpers/influxdb');
@@ -20,9 +22,19 @@ exports.set = function (req, res, next, force) {
         return;
 	}
 
-	/*if(!force) { // Sera utilisé lors de la prochaine version avec l'authentification des cozys
-
-	}*/
+	if(!force) {
+		/*if(req.body.signature == undefined) {
+			logger.clientError('No signature specified');
+			res.status(400).send('No signature specified');
+			return;
+		}
+		var signature = req.body.signature;
+		if (!ctrl_signature.checkCozySignature(cozyid, signature)) {
+			logger.clientError('signature invalid');
+			res.status(403).send('signature invalid');
+			return;
+		}*/
+	}
 
 	if(req.body.field == undefined) {
 		logger.clientError('No field specified');
@@ -139,8 +151,13 @@ exports.set = function (req, res, next, force) {
 			}
 
 			// On indique comment c'est passé le traitement au client
-			if(error) { res.status(500).send(); }
-			else { res.status(200).send(); }
+			if(error) { 
+				res.status(500).send(); 
+			}
+			else { 
+				console.error("[" + new Date().toISOString()+ "] Données reçues du cozy " + cozyid);
+				res.status(200).send(); 
+			}
 		})
 		.catch(err => logger.error('Erreur lors de la création de la base de donnée ' + field +'_DB : ' + err));
 };

@@ -6,6 +6,7 @@ const NB_COZY = 25;
 
 for(var i = 0; i < NB_COZY; i++) {		
 	var cozyid = hlp_random.string(8);
+	//var cozyid = "zJOv6i";
 	console.log('Insertion de données dans le moteur pour le cozy ' + (i+1) + '/' + NB_COZY + ' : ' + cozyid);
 	
 	httpPost(generate("bill", cozyid), function (err, response, body){
@@ -70,7 +71,7 @@ function generate(type, cozyid) {
  */
 function generateBills() { 
     var bills = [];  		
-    var nbDonnee = hlp_random.int(0, 100);
+    var nbDonnee = hlp_random.int(0, 300);
 
     var types = { 
         "Orange" : "phone", 
@@ -92,11 +93,16 @@ function generateBills() {
 
     for (var k=0; k<nbDonnee; k++) {			
         var vendor = Object.keys(types)[hlp_random.int(0, Object.keys(types).length)];
+		var amountType = hlp_random.int(0, 5);
+		var amount = hlp_random.float(1, 300, 2);
+		if(amountType == 4) {
+			amount = hlp_random.float(300, 1000, 2);
+		}
         var bill = {};
         bill.vendor = vendor;
         bill.type = types[vendor],					
-        bill.amount = hlp_random.float(1, 301, 2);
-        bill.time = hlp_random.timestamp(1451602800000);
+        bill.amount = amount;										  
+        bill.time = hlp_random.timestamp(1470002400000);
         bills.push(bill);
     } 
     return bills;
@@ -107,13 +113,13 @@ function generateBills() {
  */
 function generateMoods() { 
     var moods = [];  
-    var nbDonnee = hlp_random.int(0, 100);
+    var nbDonnee = hlp_random.int(0, 300);
     var types = ["bad", "neutral", "good"];
 
     for (var k=0; k<nbDonnee; k++) {			
         var mood = {};
         mood.status = types[hlp_random.int(0, types.length)];
-        mood.date = hlp_random.timestamp(1451602800000).toISOString().substring(0, 10) + "T00:00:00.000Z",					
+        mood.date = hlp_random.timestamp(1470002400000).toISOString().substring(0, 10) + "T00:00:00.000Z",					
         moods.push(mood);
     } 
     return moods;
@@ -159,7 +165,7 @@ function generateConsuptionstatement() {
     }
 
     for (var k=0; k<nbDonnee; k++) {
-        var period = hlp_random.timestamp(1451602800000);		
+        var period = hlp_random.timestamp(1470002400000);
         var statement = randomStatement();	
         var consumption = {};
         consumption.start = period.toISOString().substring(0, 10);
